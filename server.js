@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -16,6 +17,11 @@ mongoose.connect("mongodb://localhost:27017/todolistDB", {
   useNewUrlParser: true,
 });
 
+mongoose.set("strictQuery", false);
+
+// let conn = mongoose.connect(process.env.MONGO_URI);
+// console.log(`connected: ${conn.connection.host}`);
+
 const itemsSchema = {
   name: String,
 };
@@ -26,13 +32,9 @@ const item1 = new Item({
   name: "Welcome to your todolist",
 });
 
-// item1.save();
-
 const item2 = new Item({
   name: "Hit the + button to add an item",
 });
-
-// item2.save();
 
 const item3 = new Item({
   name: "<-- Hit this to delete an item",
