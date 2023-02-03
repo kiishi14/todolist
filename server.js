@@ -13,11 +13,35 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname + "/public"));
 
-mongoose.connect("mongodb://localhost:27017/todolistDB", {
-  useNewUrlParser: true,
-});
+const PORT = process.env.PORT || 3000;
 
+// mongoose.connect(
+//   "mongodb+srv://admin-kiishi:Frontend2022@cluster0.zmp4w8z.mongodb.net/todolistDB",
+//   {
+//     useNewUrlParser: true,
+//   }
+// );
 mongoose.set("strictQuery", false);
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URL);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+// const connectDB = async (err) => {
+//   try {
+//     const conn = await mongoose.connect(process.env.MONGO_URL);
+//     console.log(`Mongodb connect: ${conn.connection.host}`);
+//   } catch {
+//     console.log(err);
+//     process.exit(1);
+//   }
+// };
 
 // let conn = mongoose.connect(process.env.MONGO_URI);
 // console.log(`connected: ${conn.connection.host}`);
@@ -180,6 +204,8 @@ app.get("/about", function (req, res) {
   res.render("about");
 });
 
-app.listen(process.env.PORT || 3000, function () {
-  console.log("server started on port 3000");
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
+  });
 });
