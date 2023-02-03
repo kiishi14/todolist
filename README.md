@@ -1,4 +1,4 @@
 # todolist
 
 HOSTED LINK 
-https://ill-rose-centipede-shoe.cyclic.app/
+https://blue-violet-goose-kit.cyclic.app/
